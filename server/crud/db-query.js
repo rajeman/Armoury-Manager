@@ -11,11 +11,11 @@ const eventsTable = 'events';
 
 
 const createEvent = item => new Promise((resolve, reject) => {
-  const insertTime = (new Date()).getTime();
+  const insertTime = Date.now() / 1000 | 0 ;
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `INSERT INTO ${eventsTable} (user_id, rank_id, gun_id, event_timestamp, action, insert_timsetamp) VALUES ($1, $2, $3, $4, $5, $6)`;
+      const sql = `INSERT INTO ${eventsTable} (user_id, rank_id, gun_id, event_timestamp, action, insert_timestamp) VALUES ($1, $2, $3, $4, $5, $6)`;
       const params = [item.userId, item.rankId, item.gunId,
         item.timestamp, item.action, insertTime];
       client.query(sql, params)
