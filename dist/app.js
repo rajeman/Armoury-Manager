@@ -12,6 +12,10 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
+var _events = require('./routes/events');
+
+var _events2 = _interopRequireDefault(_events);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var port = process.env.PORT || 5009;
@@ -22,7 +26,7 @@ app.use(_bodyParser2.default.json());
 app.get('/', function (req, res) {
   res.send({ message: 'Welcome to Armoury Manager' });
 });
-
+app.use('/api/v1/events', _events2.default);
 app.use('*', function (req, res) {
   res.status(404).send({ error: 'Invalid Route' });
 });
