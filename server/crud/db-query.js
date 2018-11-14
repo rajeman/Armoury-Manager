@@ -6,7 +6,7 @@ let connectionString = process.env.DATABASE_URL;
 if (process.env.current_env === 'test') {
   connectionString = process.env.TEST_DATABASE_URL;
 }
-// const usersTable = 'users';
+const usersTable = 'users';
 const eventsTable = 'events';
 
 
@@ -46,7 +46,26 @@ const getEvents = () => new Promise((resolve, reject) => {
     }).catch(e => reject(e));
 });
 
-export { createEvent, getEvents };
+const getUser = userInput => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      let sql = `SELECT * FROM ${usersTable} WHERE user_name = $1;`;
+      if (typeof userInput === 'number') {
+        sql = `SELECT * FROM ${usersTable} WHERE user_id = $1;`;
+      }
+      const params = [userInput];
+      client.query(sql, params)
+        .then((result) => {
+          resolve(result.rows);
+          client.end();
+        })
+        .catch(e => reject(e));
+    }).catch(e => reject(e));
+});
+
+
+export { createEvent, getEvents, getUser };
 
 
 // CREATE TABLE users(user_id serial PRIMARY KEY, user_name text NOT NULL,
