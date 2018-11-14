@@ -21,4 +21,4 @@ CREATE TABLE IF NOT EXISTS users
  );
 
 
-insert into users (user_id, name, user_name, user_password, user_rank) values (91, 'Armourer Jones','armourer_jones', '$2b$06$IMxF7mAzHCICTkAm4Xn8XOZcw/S0VI7wwXOkpaWv3e288/bli/YCa', 9);
+insert into users (user_id, name, user_name, user_password, user_rank) values (91, 'Armourer Jones','armourer_jones', '$2b$06$WWYvGT4OkOOOhxH6Dti.sOCdNyfhlkXSbfVoybZLBeE8tTV2QJCf2', 9);

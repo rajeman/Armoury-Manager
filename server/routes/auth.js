@@ -17,7 +17,7 @@ if (process.env.current_env === 'test') {
 authRouter.post('/login', verifyInput, (req, res) => {
   // confirm username exists in database
   getUser(req.body.username)
-    .then((result) => { 
+    .then((result) => {
       if (bcrypt.compareSync(req.body.password, result[0].user_password)) {
         const payload = {};
         payload.username = result[0].user_name;
@@ -40,5 +40,4 @@ authRouter.post('/login', verifyInput, (req, res) => {
     });
 });
 
-insert into users (user_id, name, user_name, user_password, user_rank) values (90, 'Armourer Stone','armourer_stone', '$2b$07$AMkhhDVMZMnrDjDxOQskX.Ys6VJx2O3EgumET7ba763Th2BoRatYq', 9);
 export default authRouter;
