@@ -62,3 +62,6 @@ typings/
 
 # babel transpile directory
 dist/
+
+# directory for running scripts not part of code
+confidential/
