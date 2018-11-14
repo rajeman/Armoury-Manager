@@ -1,10 +1,10 @@
 import { Client } from 'pg';
 
-let connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/armoury_manager';
+let connectionString = process.env.DATABASE_URL;
 
 
 if (process.env.current_env === 'test') {
-  connectionString = process.env.TEST_DATABASE_URL || 'postgres://localhost:5432/armoury_manager_test';
+  connectionString = process.env.TEST_DATABASE_URL;
 }
 // const usersTable = 'users';
 const eventsTable = 'events';

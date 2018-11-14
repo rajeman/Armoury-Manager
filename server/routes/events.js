@@ -16,9 +16,9 @@ eventsRouter.post('/', validateEventInput, (req, res) => {
   createEvent(req.body).then(() => {
     sendResponse(res, 201, `event '${req.body.timestamp}' was successfully uploaded`);
   }).catch((e) => {
-    if(e.code === '23505' ){
-       sendResponse(res, 409, null, 'Event with same timestamp already exists');
-       return;
+    if (e.code === '23505') {
+      sendResponse(res, 409, null, 'Event with same timestamp already exists');
+      return;
     }
     sendResponse(res, 500, null, 'Internal server error');
   });
