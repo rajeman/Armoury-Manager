@@ -33,27 +33,8 @@ const createEvent = item => new Promise((resolve, reject) => {
 });
 
 
-const clearTable = tableName => new Promise((resolve, reject) => {
-  const client = new Client(connectionString);
-  client.connect()
-    .then(() => {
-      let sql = `DELETE FROM ${tableName};`;
-      if (tableName === '') {
-        sql = `DELETE FROM ${tableName} WHERE user_level != 2;`;
-      }
-      client.query(sql)
-        .then((result) => {
-          resolve(result.rowCount);
-          client.end();
-        })
-        .catch(e => reject(e));
-    }).catch(e => reject(e));
-});
 
-
-export {
-  createEvent, clearTable,
-};
+export default createEvent;
 
 
 // CREATE TABLE users(user_id serial PRIMARY KEY, user_name text NOT NULL,

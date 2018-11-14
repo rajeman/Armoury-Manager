@@ -2,9 +2,7 @@ import express from 'express';
 import {
   validateEventInput,
 } from '../helpers/validators';
-import {
-  createEvent,
-} from '../crud/db-query';
+import createEvent from '../crud/db-query';
 
 import sendResponse from '../helpers/responses';
 

@@ -98,4 +98,19 @@ describe('POST /events', () => {
       expect(response.body.message).toContain('success');
       expect(response.body.message).toContain('161234567');
     }));
+
+   it('should add event with existing timestamp', () => request(app)
+    .post('/api/v1/events')
+    .send({
+      userId: '12',
+      rankId: '9',
+      gunId: '3',
+      timestamp: '161234567',
+      action: 20,
+    })
+    .set('Accept', 'application/json')
+    .expect(500)
+    .then((response) => {
+      expect(response.body.error).toContain('server');
+    }));
 });
