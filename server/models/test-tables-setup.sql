@@ -10,13 +10,15 @@ CREATE TABLE IF NOT EXISTS events
     action integer NOT NULL,
     insert_timestamp bigint NOT NULL
  );
-
+DROP TABLE users;
 CREATE TABLE IF NOT EXISTS users
  (
  	user_id integer PRIMARY KEY NOT NULL, 
-    user_name text NOT NULL,  
+    user_name text UNIQUE,
+    name text NOT NULL,  
     user_password text NOT NULL,
     user_rank integer NOT NULL
  );
 
-insert into users (user_id, user_name, user_password, user_rank) values (20, 'Armourer Jones', '$2b$07$OFUgtEE03stsi6ujQLqaQOJPj7uX45uTVkb0GfMsZ8Qv8rAQwfjvK', 9);
+
+insert into users (user_id, name, user_name, user_password, user_rank) values (91, 'Armourer Jones','armourer_jones', '$2b$06$IMxF7mAzHCICTkAm4Xn8XOZcw/S0VI7wwXOkpaWv3e288/bli/YCa', 9);
