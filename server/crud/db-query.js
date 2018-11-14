@@ -11,7 +11,7 @@ const eventsTable = 'events';
 
 
 const createEvent = item => new Promise((resolve, reject) => {
-  const insertTime = Date.now() / 1000 | 0 ;
+  const insertTime = Date.now() / 1000 | 0; // eslint-disable-line no-bitwise
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
