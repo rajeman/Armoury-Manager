@@ -1,10 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import {} from './helpers/config';
 import eventsRouter from './routes/events';
 
-const port = process.env.PORT || 5009;
-
+const port = process.env.PORT;
 const app = express();
+
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {

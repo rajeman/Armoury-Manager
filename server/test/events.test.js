@@ -99,7 +99,7 @@ describe('POST /events', () => {
       expect(response.body.message).toContain('161234567');
     }));
 
-   it('should add event with existing timestamp', () => request(app)
+  it('should not add event with existing timestamp', () => request(app)
     .post('/api/v1/events')
     .send({
       userId: '12',
@@ -109,8 +109,19 @@ describe('POST /events', () => {
       action: 20,
     })
     .set('Accept', 'application/json')
-    .expect(500)
+    .expect(409)
     .then((response) => {
-      expect(response.body.error).toContain('server');
+      expect(response.body.error).toContain('already exists');
+    }));
+});
+
+describe('GET /events', () => {
+  it('should return all events in database', () => request(app)
+    .get('/api/v1/events')
+    .set('Accept', 'application/json')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.message).toContain('successfully fetched');
+      expect(response.body.events).toBeTruthy();
     }));
 });

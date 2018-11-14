@@ -1,10 +1,10 @@
 import { Client } from 'pg';
 
-let connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/armoury_manager';
+let connectionString = process.env.DATABASE_URL;
 
 
 if (process.env.current_env === 'test') {
-  connectionString = process.env.TEST_DATABASE_URL || 'postgres://localhost:5432/armoury_manager_test';
+  connectionString = process.env.TEST_DATABASE_URL;
 }
 // const usersTable = 'users';
 const eventsTable = 'events';
@@ -32,9 +32,21 @@ const createEvent = item => new Promise((resolve, reject) => {
     });
 });
 
+const getEvents = () => new Promise((resolve, reject) => {
+  const client = new Client(connectionString);
+  client.connect()
+    .then(() => {
+      const sql = `SELECT * FROM ${eventsTable} ORDER BY event_timestamp DESC`;
+      client.query(sql)
+        .then((result) => {
+          resolve(result.rows);
+          client.end();
+        })
+        .catch(e => reject(e));
+    }).catch(e => reject(e));
+});
 
-
-export default createEvent;
+export { createEvent, getEvents };
 
 
 // CREATE TABLE users(user_id serial PRIMARY KEY, user_name text NOT NULL,
