@@ -32,7 +32,21 @@ const validateEventInput = (req, res, next) => {
   next();
 };
 
+const verifyInput = (req, res, next) => {
+  if (!(req.body.username && req.body.username.length > 2
+   && req.body.username.length < 15)) {
+    sendResponse(res, 400, null, 'invalid username');
+    return;
+  }
+
+  if (!(req.body.password && req.body.password.length > 2
+   && req.body.username.length < 15)) {
+    sendResponse(res, 400, null, 'invalid password');
+    return;
+  }
+  next();
+};
 
 export {
-  validateEventInput, isPositiveInteger,
+  validateEventInput, isPositiveInteger, verifyInput,
 };
