@@ -9,3 +9,12 @@ CREATE TABLE IF NOT EXISTS events
     action integer NOT NULL,
     insert_timestamp bigint NOT NULL
  );
+
+ CREATE TABLE IF NOT EXISTS users
+ (
+ 	user_id integer PRIMARY KEY NOT NULL, 
+    user_name text,
+    name text NOT NULL,  
+    user_password text NOT NULL,
+    user_rank integer NOT NULL
+ );
