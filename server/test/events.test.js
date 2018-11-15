@@ -144,7 +144,7 @@ describe('POST /events', () => {
       action: 20,
     })
     .set('Accept', 'application/json')
-    .set('Authorization', `Bearer invalidtoken`)
+    .set('Authorization', 'Bearer invalidtoken')
     .expect(403)
     .then((response) => {
       expect(response.body.error).toContain('Invalid Token');

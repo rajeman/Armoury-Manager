@@ -38,16 +38,22 @@ const validateEventInput = (req, res, next) => {
   next();
 };
 
+const verifyInputLength = (input) => {
+  if (!(input && input.length > 2
+   && input.length < 15)) {
+    return false;
+  }
+
+  return true;
+};
 
 const verifyInput = (req, res, next) => {
-  if (!(req.body.username && req.body.username.length > 2
-   && req.body.username.length < 15)) {
+  if (!verifyInputLength(req.body.username)) {
     sendResponse(res, 400, null, 'Invalid username');
     return;
   }
 
-  if (!(req.body.password && req.body.password.length > 2
-   && req.body.username.length < 15)) {
+  if (!verifyInputLength(req.body.password)) {
     sendResponse(res, 400, null, 'Invalid password');
     return;
   }
