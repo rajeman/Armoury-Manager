@@ -20,6 +20,7 @@ eventsRouter.post('/', validateEventInput, ensureToken, (req, res) => {
       sendResponse(res, 409, null, 'Event with same timestamp already exists');
       return;
     }
+    //console.log(e);
     sendResponse(res, 500, null, 'Internal server error');
   });
 });

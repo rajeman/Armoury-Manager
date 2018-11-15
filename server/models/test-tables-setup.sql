@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS users
     user_rank integer NOT NULL
  );
 
-
+ALTER TABLE events ADD FOREIGN KEY (user_id) REFERENCES users(user_id);
 insert into users (user_id, name, user_name, user_password, user_rank) values (91, 'Armourer Jones','armourer_jones', '$2b$06$WWYvGT4OkOOOhxH6Dti.sOCdNyfhlkXSbfVoybZLBeE8tTV2QJCf2', 9);

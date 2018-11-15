@@ -18,3 +18,5 @@ CREATE TABLE IF NOT EXISTS events
     user_password text NOT NULL,
     user_rank integer NOT NULL
  );
+
+ALTER TABLE events ADD FOREIGN KEY (user_id) REFERENCES users(user_id);
