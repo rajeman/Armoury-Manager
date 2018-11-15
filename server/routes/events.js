@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  validateEventInput,
+  validateEventInput, ensureToken,
 } from '../helpers/validators';
 import { createEvent, getEvents } from '../crud/db-query';
 
@@ -10,7 +10,7 @@ import sendResponse from '../helpers/responses';
 const eventsRouter = express.Router();
 
 
-eventsRouter.post('/', validateEventInput, (req, res) => {
+eventsRouter.post('/', validateEventInput, ensureToken, (req, res) => {
   // query database
 
   createEvent(req.body).then(() => {
@@ -25,7 +25,7 @@ eventsRouter.post('/', validateEventInput, (req, res) => {
 });
 
 
-eventsRouter.get('/', (req, res) => {
+eventsRouter.get('/', ensureToken, (req, res) => {
   // query database
   getEvents().then((result) => {
     res.status(200).send({

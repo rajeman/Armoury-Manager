@@ -1,6 +1,12 @@
+import jwt from 'jsonwebtoken';
 import sendResponse from './responses';
+import { getUser } from '../crud/db-query';
 
+let secretKey = process.env.TOKEN_KEY;
 
+if (process.env.current_env === 'test') {
+  secretKey = process.env.TEST_TOKEN_KEY;
+}
 const isPositiveInteger = s => /^\+?[1-9][\d]*$/.test(s);
 const validateEventInput = (req, res, next) => {
   const {
@@ -32,6 +38,7 @@ const validateEventInput = (req, res, next) => {
   next();
 };
 
+
 const verifyInput = (req, res, next) => {
   if (!(req.body.username && req.body.username.length > 2
    && req.body.username.length < 15)) {
@@ -47,6 +54,37 @@ const verifyInput = (req, res, next) => {
   next();
 };
 
+const ensureToken = (req, res, next) => {
+  let bearerToken = '';
+  const bearerHeader = req.get('Authorization');
+  if (bearerHeader) {
+    bearerToken = bearerHeader.split(' ')[1];
+  } else {
+    bearerToken = req.body.token;
+  }
+  if (!bearerToken) {
+    bearerToken = '';
+  }
+  try {
+    const decoded = jwt.verify(bearerToken, secretKey);
+    req.body.decoded = decoded;
+    // confirm email exists in database
+    getUser(req.body.decoded.user_name)
+      .then((result) => {
+        req.body.databaseResult = result;
+        next();
+      })
+      .catch(() => {
+        // console.log(e);
+        sendResponse(res, 403, null, 'Invalid user');
+      });
+    // next();
+  } catch (err) {
+    sendResponse(res, 403, null, 'Invalid Token');
+  }
+};
+
+
 export {
-  validateEventInput, isPositiveInteger, verifyInput,
+  validateEventInput, isPositiveInteger, verifyInput, ensureToken,
 };

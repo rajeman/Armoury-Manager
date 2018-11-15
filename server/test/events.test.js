@@ -3,6 +3,8 @@ import request from 'supertest';
 import app from '../app';
 
 const integerError = 'must be a positive integer';
+const testToken = process.env.TEST_TOKEN;
+
 describe('POST /events', () => {
   it('should return userId error with empty body request', () => request(app)
     .post('/api/v1/events')
@@ -83,7 +85,7 @@ describe('POST /events', () => {
       expect(response.body.error).toContain(integerError);
     }));
 
-  it('should add a new event with valid input', () => request(app)
+  it('should add a new event with valid input and token', () => request(app)
     .post('/api/v1/events')
     .send({
       userId: '18',
@@ -93,13 +95,14 @@ describe('POST /events', () => {
       action: 31,
     })
     .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${testToken}`)
     .expect(201)
     .then((response) => {
       expect(response.body.message).toContain('success');
       expect(response.body.message).toContain('161234567');
     }));
 
-  it('should not add event with existing timestamp', () => request(app)
+  it('should not add event with existing timestamp and valid token', () => request(app)
     .post('/api/v1/events')
     .send({
       userId: '12',
@@ -109,9 +112,26 @@ describe('POST /events', () => {
       action: 20,
     })
     .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${testToken}`)
     .expect(409)
     .then((response) => {
       expect(response.body.error).toContain('already exists');
+    }));
+
+  it('should not add event with invalid token', () => request(app)
+    .post('/api/v1/events')
+    .send({
+      userId: '12',
+      rankId: '9',
+      gunId: '3',
+      timestamp: '161234567',
+      action: 20,
+    })
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer invalidtoken`)
+    .expect(403)
+    .then((response) => {
+      expect(response.body.error).toContain('Invalid Token');
     }));
 });
 
@@ -119,6 +139,7 @@ describe('GET /events', () => {
   it('should return all events in database', () => request(app)
     .get('/api/v1/events')
     .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${testToken}`)
     .expect(200)
     .then((response) => {
       expect(response.body.message).toContain('successfully fetched');
