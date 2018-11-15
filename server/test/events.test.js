@@ -88,7 +88,7 @@ describe('POST /events', () => {
   it('should add a new event with valid input and token', () => request(app)
     .post('/api/v1/events')
     .send({
-      userId: '18',
+      userId: 91,
       rankId: '10',
       gunId: '2',
       timestamp: '161234567',
@@ -105,7 +105,7 @@ describe('POST /events', () => {
   it('should not add event with existing timestamp and valid token', () => request(app)
     .post('/api/v1/events')
     .send({
-      userId: '12',
+      userId: '91',
       rankId: '9',
       gunId: '3',
       timestamp: '161234567',
@@ -116,6 +116,22 @@ describe('POST /events', () => {
     .expect(409)
     .then((response) => {
       expect(response.body.error).toContain('already exists');
+    }));
+
+  it('should not add event for user not in database', () => request(app)
+    .post('/api/v1/events')
+    .send({
+      userId: '13',
+      rankId: '10',
+      gunId: '2',
+      timestamp: '161234563',
+      action: 20,
+    })
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${testToken}`)
+    .expect(500)
+    .then((response) => {
+      expect(response.body.error).toContain('Internal server error');
     }));
 
   it('should not add event with invalid token', () => request(app)

@@ -36,7 +36,9 @@ const getEvents = () => new Promise((resolve, reject) => {
   const client = new Client(connectionString);
   client.connect()
     .then(() => {
-      const sql = `SELECT * FROM ${eventsTable} ORDER BY event_timestamp DESC`;
+      //const sql = `SELECT * FROM ${eventsTable} ORDER BY event_timestamp DESC`;
+      const sql = 'SELECT events.*, users.name FROM users LEFT JOIN events ON events.user_id = users.user_id WHERE events.user_id = users.user_id';
+     // 'SELECT orders.*, users.user_name FROM users LEFT JOIN orders ON orders.user_id = users.user_id WHERE orders.user_id = users.user_id';
       client.query(sql)
         .then((result) => {
           resolve(result.rows);
