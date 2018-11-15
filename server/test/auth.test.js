@@ -14,6 +14,7 @@ describe('POST /login', () => {
     .then((response) => {
       expect(response.body.message).toContain('successfully logged');
       expect(response.body.token).toBeTruthy();
+      console.log(response.body.token);
     }));
 
   it('should not authenticate user with invalid username', () => request(app)
